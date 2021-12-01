@@ -1,0 +1,45 @@
+body {
+    text-align: center;
+    background-size: cover;
+    background-position: center;
+    color: #FFFFFF;
+    font-family: helvetica;
+}
+
+p {
+    font-size: 22px;
+    position: justify;
+}
+* {
+    box-sizing: border-box;
+}
+
+div {
+    padding: 10px;
+    background-color: #f6f6f6;
+    overflow: hidden;
+}
+
+input[type=text],
+textarea,
+select {
+    font: 17px Calibri;
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type=button] {
+    font: 17px Calibri;
+    width: auto;
+    float: right;
+    cursor: pointer;
+    padding: 7px;
+}
+#confirmation-section {
+    color: black;
+}
+#data-dump {
+    color: black;
+}

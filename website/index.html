@@ -3,54 +3,7 @@
 
 <head>
     <title>Donations! Donations!</title>
-    <style>
-        header {
-            text-align: center;
-            background: url=('https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80');
-      background-size: cover;
-      color: white;
-      }
-        body {
-            text-align: center;
-            background: url("https://images.unsplash.com/photo-1635435581456-18823ecff579?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1287&q=80");
-            background-size: cover;
-            background-position: center;
-            color: #FFFFFF;
-            font-family: helvetica;
-        }
-
-        p {
-			font-size: 22px;
-            position: justify;
-        }
-        * {
-            box-sizing: border-box;
-        }
-
-        div {
-            padding: 10px;
-            background-color: #f6f6f6;
-            overflow: hidden;
-        }
-
-        input[type=text],
-        textarea,
-        select {
-            font: 17px Calibri;
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        input[type=button] {
-            font: 17px Calibri;
-            width: auto;
-            float: right;
-            cursor: pointer;
-            padding: 7px;
-        }
-    </style>
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
@@ -71,54 +24,12 @@
             <textarea id="msg" name="msg" placeholder="Describe briefly what you have to donate and how many people it will serve..." style="height:100px"></textarea>
         </div>
         <div>
-            <input type="button" id="bt" value="Submit" onclick="saveFile()" />
+            <input type="button" id="bt" value="Submit" onclick="submitData()" />
         </div>
-
     </div>
+    <div id='confirmation-section'></div>
+    <button onclick="getData()">Get Data</button>
+    <div id='data-dump'></div>
+    <script src="index.js"></script>
 </body>
-<script>
-    let saveFile = () => {
-
-        // Get the data from each element on the form.
-        const name = document.getElementById('txtName');
-        const email = document.getElementById('txtEmail');
-        const phone = document.getElementById('txtPhone');
-        const pulocation = document.getElementById('txtPULoc');
-        const msg = document.getElementById('msg');
-
-        // This variable stores all the data.
-        let data =
-            'Name: ' + name.value + ' \r\n ' +
-            'Email: ' + email.value + ' \r\n ' +
-            'Phone: ' + phone.value + ' \r\n ' +
-            'PULoc: ' + pulocation.value + ' \r\n ' +
-            'Message: ' + msg.value;
-      
-       fetch('https://gbjt9fglc8.execute-api.us-west-2.amazonaws.com/api/items')
-       .then(response => response.json())
-        .then(data => console.log(data));
-
-        // Convert the text to BLOB.
-      /*
-        const textToBLOB = new Blob([data], {
-            type: 'text/plain'
-        });
-        const sFileName = 'formData.txt'; // The file to save the data.
-
-        let newLink = document.createElement("a");
-        newLink.download = sFileName;
-
-        if (window.webkitURL != null) {
-            newLink.href = window.webkitURL.createObjectURL(textToBLOB);
-        } else {
-            newLink.href = window.URL.createObjectURL(textToBLOB);
-            newLink.style.display = "none";
-            document.body.appendChild(newLink);
-        }
-*/
-      console.log('hello')
-        newLink.click();
-    }
-</script>
-
 </html>
