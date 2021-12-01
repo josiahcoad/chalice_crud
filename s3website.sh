@@ -1,6 +1,6 @@
 #!/bin/bash
 
-bucket_name="josiah-forthepeople3"
+bucket_name="public-forthepeople"
 website_directory="website"
 
 # 1. Create a new bucket with a unique name

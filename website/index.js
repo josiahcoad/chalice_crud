@@ -1,4 +1,4 @@
-const api_endpoint = 'https://gbjt9fglc8.execute-api.us-west-2.amazonaws.com/api/items';
+const api_endpoint = 'https://yli9sla9ie.execute-api.us-west-2.amazonaws.com/api/';
 
 const showConfirmation = () => {
     document.getElementById('confirmation-section').innerText = 'Success!!';
@@ -21,7 +21,7 @@ const submitData = () => {
         message: msg.value
     }
 
-    fetch(api_endpoint, {
+    fetch(api_endpoint + 'items', {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
@@ -40,7 +40,7 @@ const showData = (payload) => {
 }
 
 const getData = () => {
-    fetch(api_endpoint)
+    fetch(api_endpoint + 'items')
         .then(response => response.json())
         .then(showData);
 }
