@@ -5,3 +5,4 @@
 - echo '{"name": "josiah"}' | http POST localhost:8000/items
 - http GET localhost:8000/items
 - chalice deploy
+- source s3webs
