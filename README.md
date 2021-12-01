@@ -1,4 +1,4 @@
-- do a find and replace for "forthepeople" and replace with your app name
+- do a find and replace for "testapp" and replace with your app name (should be 8 occurances)
 - brew install httpie
 - python createtable.py
 - chalice local
