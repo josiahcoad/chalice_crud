@@ -1,69 +1,22 @@
 from decimal import Decimal
-
-from boto3.dynamodb.conditions import Key
-
-
-DEFAULT_USERNAME = 'default'
+from uuid import uuid4
 
 
-class TodoDB(object):
+class DB:
     def list_items(self):
         pass
 
-    def add_item(self, data, placeid, metadata=None):
+    def add_item(self, data):
         pass
 
-    def get_item(self, placeid):
+    def get_item(self, id):
         pass
 
-    def delete_item(self, placeid):
+    def delete_item(self, id):
         pass
 
-    def update_item(self, placeid, description=None, state=None,
-                    metadata=None):
+    def update_item(self, data, id):
         pass
-
-
-class InMemoryTodoDB(TodoDB):
-    def __init__(self, state=None):
-        if state is None:
-            state = {}
-        self._state = state
-
-    def list_all_items(self):
-        all_items = []
-        for username in self._state:
-            all_items.extend(self.list_items(username))
-        return all_items
-
-    def list_items(self, username=DEFAULT_USERNAME):
-        return self._state.get(username, {})
-
-    def add_item(self, place, placeid, username=DEFAULT_USERNAME):
-        if username not in self._state:
-            self._state[username] = {}
-        self._state[username][placeid] = {
-            'place': place,
-            'placeid': placeid,
-            'username': username
-        }
-        return placeid
-
-    def get_item(self, placeid, username=DEFAULT_USERNAME):
-        return self._state[username][placeid]
-
-    def delete_item(self, placeid, username=DEFAULT_USERNAME):
-        del self._state[username][placeid]
-
-    def update_item(self, placeid, description=None, state=None,
-                    metadata=None, username=DEFAULT_USERNAME):
-        item = self._state[username][placeid]
-        if description is not None:
-            item['description'] = description
-        if state is not None:
-            item['state'] = state
-        if metadata is not None:
-            item['metadata'] = metadata
 
 
 def replace_floats(obj):
@@ -81,7 +34,7 @@ def replace_floats(obj):
         return obj
 
 
-class DynamoDBTodo(TodoDB):
+class DynamoDB(DB):
     def __init__(self, table_resource):
         self._table = table_resource
 
@@ -89,41 +42,32 @@ class DynamoDBTodo(TodoDB):
         response = self._table.scan()
         return response['Items']
 
-    def list_items(self, username=DEFAULT_USERNAME):
-        response = self._table.query(
-            KeyConditionExpression=Key('username').eq(username)
-        )
-        return response['Items']
-
-    def add_item(self, data, placeid, username=DEFAULT_USERNAME):
+    def add_item(self, data):
+        id = str(uuid4())
         self._table.put_item(
             Item={
-                'username': username,
-                'placeid': placeid,
-                'place': replace_floats(data),
+                'id': id,
+                'data': replace_floats(data),
             }
         )
-        return placeid
+        return id
 
-    def get_item(self, placeid, username=DEFAULT_USERNAME):
+    def get_item(self, id):
         response = self._table.get_item(
             Key={
-                'username': username,
-                'placeid': placeid,
+                'id': id,
             },
         )
         return response['Item']
 
-    def delete_item(self, placeid, username=DEFAULT_USERNAME):
+    def delete_item(self, id):
         self._table.delete_item(
             Key={
-                'username': username,
-                'placeid': placeid,
+                'id': id,
             }
         )
 
-    def update_item(self, place, placeid, username=DEFAULT_USERNAME):
-        # We could also use update_item() with an UpdateExpression.
-        item = self.get_item(placeid, username)
-        item['place'] = replace_floats(place)
+    def update_item(self, data, id):
+        item = self.get_item(id)
+        item['data'] = replace_floats(data)
         self._table.put_item(Item=item)

@@ -8,16 +8,10 @@ import boto3
 
 TABLES = {
     'app': {
-        'prefix': 'todo-app',
+        'prefix': 'forthepeople-app',
         'env_var': 'APP_TABLE_NAME',
-        'hash_key': 'username',
-        'range_key': 'placeid'
+        'hash_key': 'id'
     },
-    'users': {
-        'prefix': 'users-app',
-        'env_var': 'USERS_TABLE_NAME',
-        'hash_key': 'username',
-    }
 }
 
 
@@ -68,10 +62,9 @@ def record_as_env_var(key, value, stage):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-s', '--stage', default='dev')
-    # app - stores the todo items
-    # users - stores the user data.
+    # app - stores the data
     parser.add_argument('-t', '--table-type', default='app',
-                        choices=['app', 'users'],
+                        choices=['app'],
                         help='Specify which type to create')
     args = parser.parse_args()
     table_config = TABLES[args.table_type]

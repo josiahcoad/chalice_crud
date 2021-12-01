@@ -1,0 +1,6 @@
+- brew install httpie
+- python createtable.py
+- chalice local
+- echo '{"name": "josiah"}' | http POST localhost:8000/items
+- http GET localhost:8000/items
+- chalice deploy
